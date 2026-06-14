@@ -1,0 +1,8 @@
+{
+  "name": "amp-plugins",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "bun --check plugins/*.ts plugins/headroom/*.ts plugins/.disabled/*.ts"
+  }
+}
