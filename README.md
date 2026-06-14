@@ -11,83 +11,62 @@ Amp loads TypeScript plugins from:
 
 After installing or updating a plugin, run `plugins: reload` from Amp's command palette, or restart Amp.
 
-## Clone this repository
+## Install a single plugin globally from GitHub
 
-```bash
-git clone https://github.com/pc-style/amp-plugins.git ~/projects/03-CLI-Tools/amp-plugins
-cd ~/projects/03-CLI-Tools/amp-plugins
-bun run check
-```
-
-## Install a single plugin globally
-
-Copy a single plugin into your global Amp plugin directory:
-
-```bash
-mkdir -p ~/.config/amp/plugins
-cp plugins/danger-sense.ts ~/.config/amp/plugins/danger-sense.ts
-```
-
-Or symlink it so updates in this repo are reflected immediately after `plugins: reload`:
-
-```bash
-mkdir -p ~/.config/amp/plugins
-ln -sf "$PWD/plugins/danger-sense.ts" ~/.config/amp/plugins/danger-sense.ts
-```
-
-## Install a single plugin into one project
-
-From a project workspace:
-
-```bash
-mkdir -p .amp/plugins
-cp ~/projects/03-CLI-Tools/amp-plugins/plugins/danger-sense.ts .amp/plugins/danger-sense.ts
-```
-
-Or symlink it:
-
-```bash
-mkdir -p .amp/plugins
-ln -sf ~/projects/03-CLI-Tools/amp-plugins/plugins/danger-sense.ts .amp/plugins/danger-sense.ts
-```
-
-## One-command global installs
-
-Run these from the cloned repository root.
+These commands install directly from the public GitHub repository. Run one command for the plugin you want, then run `plugins: reload` in Amp.
 
 ```bash
 # Danger Sense: blocks/approves risky tool calls
-mkdir -p ~/.config/amp/plugins && cp plugins/danger-sense.ts ~/.config/amp/plugins/danger-sense.ts
+mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/danger-sense.ts -o ~/.config/amp/plugins/danger-sense.ts
 
 # Auto QA Loop: verifies changed work and auto-continues on failure
-mkdir -p ~/.config/amp/plugins && cp plugins/auto-qa-loop.ts ~/.config/amp/plugins/auto-qa-loop.ts
+mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/auto-qa-loop.ts -o ~/.config/amp/plugins/auto-qa-loop.ts
 
 # Cursor Composer Subagents: routes Amp Task calls through Cursor SDK agents
-mkdir -p ~/.config/amp/plugins && cp plugins/cursor-composer-subagents.ts ~/.config/amp/plugins/cursor-composer-subagents.ts
+mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/cursor-composer-subagents.ts -o ~/.config/amp/plugins/cursor-composer-subagents.ts
 
 # Design Upgrade Modes: adds visual-design-focused agent modes and commands
-mkdir -p ~/.config/amp/plugins && cp plugins/design-upgrade-modes.ts ~/.config/amp/plugins/design-upgrade-modes.ts
+mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/design-upgrade-modes.ts -o ~/.config/amp/plugins/design-upgrade-modes.ts
 
 # Grok Build: adds xAI Grok Build as an Amp agent mode
-mkdir -p ~/.config/amp/plugins && cp plugins/grok-build.ts ~/.config/amp/plugins/grok-build.ts
+mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/grok-build.ts -o ~/.config/amp/plugins/grok-build.ts
 
 # Headroom: compresses large tool outputs through a local Headroom proxy
-mkdir -p ~/.config/amp/plugins ~/.config/amp/plugins/headroom && cp plugins/headroom.ts ~/.config/amp/plugins/headroom.ts && cp plugins/headroom/lib.ts ~/.config/amp/plugins/headroom/lib.ts
+mkdir -p ~/.config/amp/plugins/headroom && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/headroom.ts -o ~/.config/amp/plugins/headroom.ts && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/headroom/lib.ts -o ~/.config/amp/plugins/headroom/lib.ts
 
 # No Mistakes: injects a hidden reminder when NO_MISTAKES=1
-mkdir -p ~/.config/amp/plugins && cp plugins/no-mistakes.ts ~/.config/amp/plugins/no-mistakes.ts
+mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/no-mistakes.ts -o ~/.config/amp/plugins/no-mistakes.ts
 
 # Details Default: asks Amp clients to expand details by default
-mkdir -p ~/.config/amp/plugins && cp plugins/show-details-default.ts ~/.config/amp/plugins/show-details-default.ts
+mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/show-details-default.ts -o ~/.config/amp/plugins/show-details-default.ts
 ```
 
-## Install every active plugin globally
+## Install a single plugin into one project from GitHub
 
-This overwrites files with the same names in `~/.config/amp/plugins`.
+From a project workspace, install into `.amp/plugins` instead of the global plugin directory:
 
 ```bash
-mkdir -p ~/.config/amp/plugins
-rsync -a --exclude='.disabled/' plugins/ ~/.config/amp/plugins/
+# Example: project-local Danger Sense
+mkdir -p .amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/danger-sense.ts -o .amp/plugins/danger-sense.ts
+
+# Example: project-local Auto QA Loop
+mkdir -p .amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/auto-qa-loop.ts -o .amp/plugins/auto-qa-loop.ts
+```
+
+## Install every active plugin globally from GitHub
+
+This clones the public repository to a temporary directory, copies every active plugin into `~/.config/amp/plugins`, and leaves disabled plugins out.
+
+```bash
+tmpdir="$(mktemp -d)" && git clone --depth 1 https://github.com/pc-style/amp-plugins.git "$tmpdir" && mkdir -p ~/.config/amp/plugins && rsync -a --exclude='.disabled/' "$tmpdir/plugins/" ~/.config/amp/plugins/
+```
+
+## Clone this repository for development
+
+```bash
+git clone https://github.com/pc-style/amp-plugins.git
+cd amp-plugins
+bun run check
 ```
 
 ## Plugins
@@ -269,7 +248,7 @@ Disabled experimental token-economy plugin.
 To try it, copy it out of `.disabled`:
 
 ```bash
-cp plugins/.disabled/eco.ts ~/.config/amp/plugins/eco.ts
+mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/.disabled/eco.ts -o ~/.config/amp/plugins/eco.ts
 ```
 
 ## Development
