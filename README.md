@@ -25,20 +25,11 @@ mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/p
 # Cursor Composer Subagents: routes Amp Task calls through Cursor SDK agents
 mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/cursor-composer-subagents.ts -o ~/.config/amp/plugins/cursor-composer-subagents.ts
 
-# Design Upgrade Modes: adds visual-design-focused agent modes and commands
-mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/design-upgrade-modes.ts -o ~/.config/amp/plugins/design-upgrade-modes.ts
-
 # Grok Build: adds xAI Grok Build as an Amp agent mode
 mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/grok-build.ts -o ~/.config/amp/plugins/grok-build.ts
 
-# Headroom: compresses large tool outputs through a local Headroom proxy
-mkdir -p ~/.config/amp/plugins/headroom && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/headroom.ts -o ~/.config/amp/plugins/headroom.ts && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/headroom/lib.ts -o ~/.config/amp/plugins/headroom/lib.ts
-
 # WakaTime: sends Amp file activity to WakaTime via wakatime-cli
 mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/wakatime.ts -o ~/.config/amp/plugins/wakatime.ts
-
-# No Mistakes: injects a hidden reminder when NO_MISTAKES=1
-mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/no-mistakes.ts -o ~/.config/amp/plugins/no-mistakes.ts
 
 # Details Default: asks Amp clients to expand details by default
 mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/show-details-default.ts -o ~/.config/amp/plugins/show-details-default.ts
@@ -140,30 +131,6 @@ Commands:
 
 Default API key environment variable: `CURSOR_API_KEY`
 
-### `design-upgrade-modes.ts`
-
-Experimental design-focused agent modes and command shortcuts for UI refinement work.
-
-- Uses Amp's experimental agent APIs.
-- Registers multiple Fable/Sonnet design-oriented modes with different reasoning efforts.
-- Adds command-palette actions that start visible design-upgrade threads.
-- Embeds a high-taste frontend design prompt that pushes agents away from generic template aesthetics.
-
-Commands:
-
-- `Design Upgrade: MODER-nize with Fable`
-- `Design Upgrade: FANCIER-nize with Fable`
-- `Design Upgrade: SEO-nize with Sonnet`
-
-Agent modes include:
-
-- `claude-fable-5`
-- `claude-fable-low`
-- `claude-fable-med`
-- `claude-fable-xhi`
-- `claude-fable-max`
-- `sonnet-4-6`
-
 ### `grok-build.ts`
 
 Experimental agent-mode plugin for xAI Grok Build.
@@ -179,39 +146,6 @@ Commands:
 Agent mode:
 
 - `Grok Build`
-
-### `headroom.ts` and `headroom/lib.ts`
-
-Tool-result compression plugin for large outputs.
-
-- Hooks `tool.result`.
-- Sends large tool outputs to a local Headroom-compatible compression proxy.
-- Replaces oversized outputs with compressed text when compression succeeds.
-- Tracks estimated token savings in a status item.
-- Registers a retrieval tool so agents can fetch original uncompressed content by hash.
-
-Commands:
-
-- `Headroom: Toggle Headroom compression`
-
-Tools:
-
-- `headroom_retrieve`
-
-Important: this plugin imports `./headroom/lib.js`, so install `plugins/headroom.ts` and the `plugins/headroom/` directory together.
-
-Default proxy URL: `http://127.0.0.1:8787`
-
-Configuration keys:
-
-```json
-{
-  "headroom.enabled": true,
-  "headroom.proxyUrl": "http://127.0.0.1:8787",
-  "headroom.proxyPort": 8787,
-  "headroom.minCompressChars": 500
-}
-```
 
 ### `wakatime.ts`
 
@@ -246,20 +180,6 @@ Configuration key: `wakatime`
 
 By default this plugin uses the `api_key` from `~/.wakatime.cfg`. Use `WakaTime: Configure API key` only if you want the key stored in Amp's global settings instead.
 
-### `no-mistakes.ts`
-
-Tiny prompt-injection helper for stricter sessions.
-
-- Hooks `agent.start`.
-- If `NO_MISTAKES=1` is present in the Amp environment, injects a hidden `Make no mistakes!` reminder.
-- Does nothing when the environment variable is absent.
-
-Usage:
-
-```bash
-NO_MISTAKES=1 amp
-```
-
 ### `show-details-default.ts`
 
 Preference helper that persists settings asking Amp clients to show details expanded by default.
@@ -273,18 +193,17 @@ Commands:
 - `Details Default: Disable details by default`
 - `Details Default: Toggle details by default`
 
-### `.disabled/eco.ts`
+### `.disabled/design-upgrade-modes.ts`
 
-Disabled experimental token-economy plugin.
+Disabled experimental design-focused agent modes and command shortcuts for UI refinement work.
 
 - Kept in `plugins/.disabled/` so Amp does not load it automatically.
-- Intended to reduce token-heavy behavior by blocking token-bomb shell commands, truncating large tool results, optionally disabling expensive/fancy tools, and injecting economy-mode guidance.
 - Treat as experimental before enabling.
 
 To try it, copy it out of `.disabled`:
 
 ```bash
-mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/.disabled/eco.ts -o ~/.config/amp/plugins/eco.ts
+mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/.disabled/design-upgrade-modes.ts -o ~/.config/amp/plugins/design-upgrade-modes.ts
 ```
 
 ## Development

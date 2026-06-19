@@ -115,8 +115,6 @@ export default function dangerSensePlugin(amp: PluginAPI) {
 			message: `Danger Sense did not get approval for this tool call: ${confirmationReasons.join('; ')}. Ask the user before continuing.`,
 		}
 	})
-
-	amp.logger.log('[danger-sense] loaded')
 }
 
 function registerCommands(

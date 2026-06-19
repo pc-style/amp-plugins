@@ -120,7 +120,6 @@ export default function wakatimePlugin(amp: PluginAPI) {
 	})
 
 	registerCommands(amp, () => settings, saveSettings)
-	amp.logger.log(`[wakatime] loaded ${PLUGIN_NAME}`)
 }
 
 function registerCommands(

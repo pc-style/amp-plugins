@@ -132,8 +132,6 @@ export default function autoQaLoopPlugin(amp: PluginAPI) {
 			userMessage: buildFixPrompt(failure, changedFiles, attempts + 1, settings.maxAttempts),
 		}
 	})
-
-	amp.logger.log('[auto-qa-loop] loaded')
 }
 
 function registerCommands(
