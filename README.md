@@ -34,6 +34,9 @@ mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/p
 # Headroom: compresses large tool outputs through a local Headroom proxy
 mkdir -p ~/.config/amp/plugins/headroom && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/headroom.ts -o ~/.config/amp/plugins/headroom.ts && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/headroom/lib.ts -o ~/.config/amp/plugins/headroom/lib.ts
 
+# WakaTime: sends Amp file activity to WakaTime via wakatime-cli
+mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/wakatime.ts -o ~/.config/amp/plugins/wakatime.ts
+
 # No Mistakes: injects a hidden reminder when NO_MISTAKES=1
 mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/no-mistakes.ts -o ~/.config/amp/plugins/no-mistakes.ts
 
@@ -209,6 +212,39 @@ Configuration keys:
   "headroom.minCompressChars": 500
 }
 ```
+
+### `wakatime.ts`
+
+WakaTime tracking for Amp file activity.
+
+- Hooks `tool.call` and `tool.result`.
+- Sends read-like file tool calls as normal WakaTime heartbeats.
+- Sends successful file modifications as `--write` heartbeats.
+- Runs `wakatime-cli --entity <file> --plugin amp-wakatime/0.1.0 --category "ai coding"` in the background.
+- Throttles repeated non-write heartbeats for the same file to WakaTime's recommended 2 minute interval.
+- Auto-detects `wakatime-cli` from `WAKATIME_CLI_PATH`, common install paths, `$PATH`, and `~/.wakatime/wakatime-cli*`.
+
+Commands:
+
+- `WakaTime: Show status`
+- `WakaTime: Toggle tracking`
+- `WakaTime: Configure CLI path`
+- `WakaTime: Configure API key`
+
+Configuration key: `wakatime`
+
+```json
+{
+  "wakatime": {
+    "enabled": true,
+    "cliPath": "",
+    "apiKey": "",
+    "verbose": false
+  }
+}
+```
+
+By default this plugin uses the `api_key` from `~/.wakatime.cfg`. Use `WakaTime: Configure API key` only if you want the key stored in Amp's global settings instead.
 
 ### `no-mistakes.ts`
 
