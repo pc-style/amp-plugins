@@ -28,7 +28,9 @@ function Header() {
     <header className="site-header">
       <nav className="nav-shell" aria-label="Primary navigation">
         <a className="brand" href="/" aria-label="Amp plugin catalog home">
-          <span className="brand-mark">A</span>
+          <svg className="brand-mark" viewBox="0 0 32 24" aria-hidden="true">
+            <path d="M2 22 L11 4 L16.5 14 L21 6 L30 22" fill="none" stroke="currentColor" strokeWidth="3.6" strokeLinecap="square" strokeLinejoin="miter" />
+          </svg>
           <span>plugin catalog</span>
         </a>
         <div className="nav-links">
