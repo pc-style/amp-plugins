@@ -1,4 +1,5 @@
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Copy, GithubLogo } from '@phosphor-icons/react'
+import { Analytics } from '@vercel/analytics/react'
 import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { findPlugin, plugins, repositoryUrl, type Plugin } from './plugins'
@@ -280,4 +281,9 @@ function App() {
   return plugin ? <DetailPage plugin={plugin} /> : <NotFoundPage />
 }
 
-createRoot(document.getElementById('root')!).render(<StrictMode><App /></StrictMode>)
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+    <Analytics />
+  </StrictMode>,
+)
