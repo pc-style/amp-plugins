@@ -13,16 +13,20 @@ export type Plugin = {
   source: string
   sourceLines: number
   rawUrl: string
+  githubUrl: string
   installCommand: string
 }
 
+export const repositoryUrl = 'https://github.com/pc-style/amp-plugins'
+
 const rawBase = 'https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins'
 
-function plugin(definition: Omit<Plugin, 'rawUrl' | 'installCommand'>): Plugin {
+function plugin(definition: Omit<Plugin, 'rawUrl' | 'githubUrl' | 'installCommand'>): Plugin {
   const rawUrl = `${rawBase}/${definition.filename}`
   return {
     ...definition,
     rawUrl,
+    githubUrl: `${repositoryUrl}/blob/main/plugins/${definition.filename}`,
     installCommand: `mkdir -p ~/.config/amp/plugins && curl -fsSL ${rawUrl} -o ~/.config/amp/plugins/${definition.filename}`,
   }
 }
@@ -30,40 +34,40 @@ function plugin(definition: Omit<Plugin, 'rawUrl' | 'installCommand'>): Plugin {
 export const plugins = [
   plugin({
     slug: 'compressr',
-    name: 'Compressr',
+    name: 'compressr',
     filename: 'compressr.ts',
-    summary: 'Keep long tool results useful without carrying their full context cost.',
+    summary: 'keep long tool results useful without carrying their full context cost.',
     description:
-      'Adds two low-reasoning agent modes that compress long, successful tool results through Compresr before those results re-enter the model context.',
+      'adds two low-reasoning agent modes that compress long, successful tool results through compresr before those results re-enter the model context.',
     requirements: [
-      'Amp with agent mode plugin APIs available',
+      'amp with agent mode plugin apis available',
       'COMPRESR_API_KEY for tool-result compression',
-      'Network access to api.compresr.ai',
+      'network access to api.compresr.ai',
     ],
     modes: ['Fable Cmp low', 'GPT5.5 Cmp low'],
     features: [
-      'Compresses successful tool output from 3,000 to 180,000 characters',
-      'Builds compression queries from tool input and recent user messages',
-      'Leaves short results and failed tool calls unchanged',
-      'Falls back cleanly when the API key or Compresr service is unavailable',
+      'compresses successful tool output from 3,000 to 180,000 characters',
+      'builds compression queries from tool input and recent user messages',
+      'leaves short results and failed tool calls unchanged',
+      'falls back cleanly when the api key or compresr service is unavailable',
     ],
     source: compressrSource,
     sourceLines: 214,
   }),
   plugin({
     slug: 'fable-mode',
-    name: 'Fable Mode',
+    name: 'fable mode',
     filename: 'fable-mode.ts',
-    summary: 'Run Claude Fable 5 across five deliberate reasoning levels.',
+    summary: 'run claude fable 5 across five deliberate reasoning levels.',
     description:
-      'Registers Claude Fable 5 at high reasoning and adds low, medium, xhigh, and max variants with a focused coding-agent prompt and tool set.',
-    requirements: ['Amp with experimental agent APIs enabled', 'Access to the anthropic/claude-fable-5 model'],
+      'registers claude fable 5 at high reasoning and adds low, medium, xhigh, and max variants with a focused coding-agent prompt and tool set.',
+    requirements: ['amp with experimental agent apis enabled', 'access to the anthropic/claude-fable-5 model'],
     modes: ['Claude Fable 5 high', 'Claude Fable low', 'Claude Fable med', 'Claude Fable xhi', 'Claude Fable max'],
     features: [
-      'Five reasoning variants from low through max',
-      'Coding-focused system instructions for investigation, implementation, and verification',
-      'Curated smart-tool access for each registered mode',
-      'Runtime-safe labels that stay within Amp plugin limits',
+      'five reasoning variants from low through max',
+      'coding-focused system instructions for investigation, implementation, and verification',
+      'curated smart-tool access for each registered mode',
+      'runtime-safe labels that stay within amp plugin limits',
     ],
     source: fableModeSource,
     sourceLines: 210,
