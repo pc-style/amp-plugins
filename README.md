@@ -10,6 +10,22 @@ A small catalog of Amp plugins. The files in `plugins/` are the source of truth 
 mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/gpt-56-sol-mode.ts -o ~/.config/amp/plugins/gpt-56-sol-mode.ts
 ```
 
+## GPT-5.6 Terra Mode
+
+`gpt-56-terra-mode.ts` adds the balanced GPT-5.6 Terra model at high reasoning with Amp's full tool set.
+
+```bash
+mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/gpt-56-terra-mode.ts -o ~/.config/amp/plugins/gpt-56-terra-mode.ts
+```
+
+## GPT-5.6 Luna Mode
+
+`gpt-56-luna-mode.ts` adds the fast, low-cost GPT-5.6 Luna model at high reasoning with Amp's full tool set.
+
+```bash
+mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/gpt-56-luna-mode.ts -o ~/.config/amp/plugins/gpt-56-luna-mode.ts
+```
+
 ## Compressr
 
 `compressr.ts` adds Fable Cmp low and GPT5.5 Cmp low modes. Successful long tool results are compressed through Compresr before they re-enter model context. Set `COMPRESR_API_KEY` to enable compression.

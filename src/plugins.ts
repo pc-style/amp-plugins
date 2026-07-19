@@ -1,6 +1,8 @@
 import compressrSource from '../plugins/compressr.ts?raw'
 import fableModeSource from '../plugins/fable-mode.ts?raw'
+import gpt56LunaModeSource from '../plugins/gpt-56-luna-mode.ts?raw'
 import gpt56SolModeSource from '../plugins/gpt-56-sol-mode.ts?raw'
+import gpt56TerraModeSource from '../plugins/gpt-56-terra-mode.ts?raw'
 
 export type Plugin = {
   slug: string
@@ -33,6 +35,42 @@ function plugin(definition: Omit<Plugin, 'rawUrl' | 'githubUrl' | 'installComman
 }
 
 export const plugins = [
+  plugin({
+    slug: 'gpt-56-luna-mode',
+    name: 'gpt-5.6 luna mode',
+    filename: 'gpt-56-luna-mode.ts',
+    summary: 'run the fastest, lowest-cost gpt-5.6 model as an amp coding agent.',
+    description:
+      'registers gpt-5.6 luna at high reasoning with amp’s full tool set and concise coding-agent instructions.',
+    requirements: ['amp with agent mode plugin apis available', 'access to the openai/gpt-5.6-luna model'],
+    modes: ['GPT-5.6 Luna'],
+    features: [
+      'gpt-5.6 luna at high reasoning',
+      'full access to tools available in the amp runtime',
+      'coding-focused instructions for small changes and end-to-end verification',
+      'fallback support for amp’s former experimental agent api',
+    ],
+    source: gpt56LunaModeSource,
+    sourceLines: 45,
+  }),
+  plugin({
+    slug: 'gpt-56-terra-mode',
+    name: 'gpt-5.6 terra mode',
+    filename: 'gpt-56-terra-mode.ts',
+    summary: 'run the balanced gpt-5.6 model as an amp coding agent.',
+    description:
+      'registers gpt-5.6 terra at high reasoning with amp’s full tool set and concise coding-agent instructions.',
+    requirements: ['amp with agent mode plugin apis available', 'access to the openai/gpt-5.6-terra model'],
+    modes: ['GPT-5.6 Terra'],
+    features: [
+      'gpt-5.6 terra at high reasoning',
+      'full access to tools available in the amp runtime',
+      'coding-focused instructions for small changes and end-to-end verification',
+      'fallback support for amp’s former experimental agent api',
+    ],
+    source: gpt56TerraModeSource,
+    sourceLines: 45,
+  }),
   plugin({
     slug: 'gpt-56-sol-mode',
     name: 'gpt-5.6 sol mode',
