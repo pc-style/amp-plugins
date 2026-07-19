@@ -1,5 +1,6 @@
 import compressrSource from '../plugins/compressr.ts?raw'
 import fableModeSource from '../plugins/fable-mode.ts?raw'
+import gpt56SolModeSource from '../plugins/gpt-56-sol-mode.ts?raw'
 
 export type Plugin = {
   slug: string
@@ -32,6 +33,24 @@ function plugin(definition: Omit<Plugin, 'rawUrl' | 'githubUrl' | 'installComman
 }
 
 export const plugins = [
+  plugin({
+    slug: 'gpt-56-sol-mode',
+    name: 'gpt-5.6 sol mode',
+    filename: 'gpt-56-sol-mode.ts',
+    summary: 'run gpt-5.6 sol as a focused amp coding agent.',
+    description:
+      'registers gpt-5.6 sol at high reasoning with amp’s full tool set and concise coding-agent instructions.',
+    requirements: ['amp with agent mode plugin apis available', 'access to the openai/gpt-5.6-sol model'],
+    modes: ['GPT-5.6 Sol'],
+    features: [
+      'gpt-5.6 sol at high reasoning',
+      'full access to tools available in the amp runtime',
+      'coding-focused instructions for small changes and end-to-end verification',
+      'fallback support for amp’s former experimental agent api',
+    ],
+    source: gpt56SolModeSource,
+    sourceLines: 45,
+  }),
   plugin({
     slug: 'compressr',
     name: 'compressr',
