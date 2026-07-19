@@ -3,6 +3,23 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "check": "bun --check plugins/*.ts"
+    "dev": "vite",
+    "build": "vite build",
+    "check": "bun --check plugins/*.ts && tsc --noEmit",
+    "tb__tsc-lint-build": "bun run check && bun run build"
+  },
+  "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.1.5"
   }
 }
