@@ -3,6 +3,7 @@ import fableModeSource from '../plugins/fable-mode.ts?raw'
 import gpt56LunaModeSource from '../plugins/gpt-56-luna-mode.ts?raw'
 import gpt56SolModeSource from '../plugins/gpt-56-sol-mode.ts?raw'
 import gpt56TerraModeSource from '../plugins/gpt-56-terra-mode.ts?raw'
+import signalFilterSource from '../plugins/signal-filter.ts?raw'
 
 export type Plugin = {
   slug: string
@@ -110,6 +111,28 @@ export const plugins = [
     ],
     source: compressrSource,
     sourceLines: 214,
+  }),
+  plugin({
+    slug: 'signal-filter',
+    name: 'signal filter experimental',
+    filename: 'signal-filter.ts',
+    summary: 'filter long tool results through amp inference before they consume the agent’s context.',
+    description:
+      'adds two experimental low-reasoning modes that use amp/glm-5.2 to retain task-relevant excerpts from long text tool results.',
+    requirements: [
+      'amp with agent mode and plugin ai apis available',
+      'access to amp/glm-5.2 for tool-result filtering',
+      'access to the model used by the selected agent mode',
+    ],
+    modes: ['Fable Signal exp', 'Sol Signal exp'],
+    features: [
+      'uses amp/glm-5.2 at no reasoning instead of a separate third-party api key',
+      'filters long text results using tool input and recent user messages as relevance signals',
+      'leaves short, oversized, mixed-media, failed, and insufficiently reduced results unchanged',
+      'falls back to the original result when filtering fails or exceeds 30 seconds',
+    ],
+    source: signalFilterSource,
+    sourceLines: 195,
   }),
   plugin({
     slug: 'fable-mode',

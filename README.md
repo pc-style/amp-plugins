@@ -34,6 +34,14 @@ mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/p
 mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/compressr.ts -o ~/.config/amp/plugins/compressr.ts
 ```
 
+## Signal Filter Experimental
+
+`signal-filter.ts` adds Fable Signal exp and Sol Signal exp modes. It uses Amp-routed `amp/glm-5.2` inference at no reasoning to retain task-relevant excerpts from long text tool results, with no separate API key. Filtering is lossy and experimental; unsupported, insufficiently reduced, timed-out, and failed results remain unchanged.
+
+```bash
+mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/signal-filter.ts -o ~/.config/amp/plugins/signal-filter.ts
+```
+
 ## Fable Mode
 
 `fable-mode.ts` adds Claude Fable 5 at high reasoning plus low, medium, xhigh, and max variants through Amp's experimental agent APIs.
