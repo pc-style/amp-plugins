@@ -1,5 +1,5 @@
 // @amp-agent-mode {"key":"cmp-fable-low","label":"Fable Cmp low"}
-// @amp-agent-mode {"key":"cmp-gpt55-low","label":"GPT5.5 Cmp low"}
+// @amp-agent-mode {"key":"cmp-gpt56-sol-low","label":"GPT5.6 Sol Cmp low"}
 
 import type { PluginAPI } from '@ampcode/plugin'
 
@@ -76,18 +76,18 @@ export default function (amp: PluginAPI) {
 	})
 
 	const gptAgent = createAgent({
-		name: 'compressr-gpt-5-5-low',
-		model: 'openai/gpt-5.5',
+		name: 'compressr-gpt-5-6-sol-low',
+		model: 'openai/gpt-5.6-sol',
 		instructions: AGENT_PROMPT,
 		tools: TOOL_NAMES,
 		reasoningEffort: 'low',
-		display: { label: 'GPT5.5 Cmp low', color: '#60a5fa' },
+		display: { label: 'GPT5.6 Sol Cmp low', color: '#60a5fa' },
 	})
 
 	registerAgentMode({
-		key: 'cmp-gpt55-low',
-		label: 'GPT5.5 Cmp low',
-		description: 'GPT-5.5 low with Compresr-compressed tool results',
+		key: 'cmp-gpt56-sol-low',
+		label: 'GPT5.6 Sol Cmp low',
+		description: 'GPT-5.6 Sol low with Compresr-compressed tool results',
 		color: '#60a5fa',
 		agent: gptAgent.definition,
 	})

@@ -28,7 +28,7 @@ mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/p
 
 ## Compressr
 
-`compressr.ts` adds Fable Cmp low and GPT5.5 Cmp low modes. Successful long tool results are compressed through Compresr before they re-enter model context. Set `COMPRESR_API_KEY` to enable compression.
+`compressr.ts` adds Fable Cmp low and GPT5.6 Sol Cmp low modes. Successful long tool results are compressed through Compresr before they re-enter model context. Set `COMPRESR_API_KEY` to enable compression.
 
 ```bash
 mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/compressr.ts -o ~/.config/amp/plugins/compressr.ts

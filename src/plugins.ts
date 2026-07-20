@@ -101,9 +101,9 @@ export const plugins = [
       'COMPRESR_API_KEY for tool-result compression',
       'network access to api.compresr.ai',
     ],
-    modes: ['Fable Cmp low', 'GPT5.5 Cmp low'],
+    modes: ['Fable Cmp low', 'GPT5.6 Sol Cmp low'],
     features: [
-      'compresses successful tool output between 3,000 and 180,000 characters',
+      'keeps the task-relevant parts of long tool results while dropping context the agent does not need',
       'builds compression queries from tool input and recent user messages',
       'leaves short results and failed tool calls unchanged',
       'falls back cleanly when the api key or compresr service is unavailable',
