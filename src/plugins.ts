@@ -103,7 +103,7 @@ export const plugins = [
     ],
     modes: ['Fable Cmp low', 'GPT5.5 Cmp low'],
     features: [
-      'compresses successful tool output from 3,000 to 180,000 characters',
+      'compresses successful tool output between 3,000 and 180,000 characters',
       'builds compression queries from tool input and recent user messages',
       'leaves short results and failed tool calls unchanged',
       'falls back cleanly when the api key or compresr service is unavailable',
