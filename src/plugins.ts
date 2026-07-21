@@ -3,6 +3,7 @@ import fableModeSource from '../plugins/fable-mode.ts?raw'
 import gpt56LunaModeSource from '../plugins/gpt-56-luna-mode.ts?raw'
 import gpt56SolModeSource from '../plugins/gpt-56-sol-mode.ts?raw'
 import gpt56TerraModeSource from '../plugins/gpt-56-terra-mode.ts?raw'
+import readXPostSource from '../plugins/read-x-post.ts?raw'
 import signalFilterSource from '../plugins/signal-filter.ts?raw'
 
 export type Plugin = {
@@ -111,6 +112,24 @@ export const plugins = [
     ],
     source: compressrSource,
     sourceLines: 214,
+  }),
+  plugin({
+    slug: 'read-x-post',
+    name: 'read x post',
+    filename: 'read-x-post.ts',
+    summary: 'give amp a direct tool for reading public x posts and reply chains.',
+    description:
+      'registers a read_x_post tool that converts public x.com and twitter.com status urls to markdown through x.pcstyle.dev.',
+    requirements: ['amp with plugin tool apis available', 'network access to x.pcstyle.dev'],
+    modes: ['read_x_post'],
+    features: [
+      'reads public x and twitter status urls without an x api key',
+      'returns compact markdown instead of page html',
+      'expands reply chains by default with an option to read one post only',
+      'validates status urls before sending requests to x.pcstyle.dev',
+    ],
+    source: readXPostSource,
+    sourceLines: 41,
   }),
   plugin({
     slug: 'signal-filter',

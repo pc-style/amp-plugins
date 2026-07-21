@@ -34,6 +34,14 @@ mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/p
 mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/compressr.ts -o ~/.config/amp/plugins/compressr.ts
 ```
 
+## Read X Post
+
+`read-x-post.ts` adds a `read_x_post` tool that turns public X and Twitter status URLs into Markdown through [x.pcstyle.dev](https://x.pcstyle.dev). It expands reply chains by default, needs no X API key, and can read a single post with `thread: "off"`.
+
+```bash
+mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/read-x-post.ts -o ~/.config/amp/plugins/read-x-post.ts
+```
+
 ## Signal Filter Experimental
 
 `signal-filter.ts` adds Fable Signal exp and Sol Signal exp modes. It uses Amp-routed `amp/glm-5.2` inference at no reasoning to retain task-relevant excerpts from long text tool results, with no separate API key. Filtering is lossy and experimental; unsupported, insufficiently reduced, timed-out, and failed results remain unchanged.
