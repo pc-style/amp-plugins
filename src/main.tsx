@@ -126,6 +126,7 @@ function PluginRow({ plugin }: { plugin: Plugin }) {
 
 function HomePage() {
   useEffect(() => { document.title = 'amp plugin catalog' }, [])
+  const heroPlugin = findPlugin('compressr') ?? plugins[0]
   return (
     <>
       <Header />
@@ -137,9 +138,9 @@ function HomePage() {
             <p>install focused agent modes and inspect every line before it reaches your setup. every plugin is a single readable typescript file, served straight from the public repo.</p>
             <a className="primary-link" href="#plugins">browse plugins <ArrowRight aria-hidden="true" /></a>
           </div>
-          <div className="hero-code" aria-label="compressr source excerpt">
-            <div className="code-title"><span>plugins/compressr.ts</span><span>{plugins[0].sourceLines} lines</span></div>
-            <CodeBlock source={plugins[0].source} excerpt />
+          <div className="hero-code" aria-label={`${heroPlugin.name} source excerpt`}>
+            <div className="code-title"><span>plugins/{heroPlugin.filename}</span><span>{heroPlugin.sourceLines} lines</span></div>
+            <CodeBlock source={heroPlugin.source} excerpt />
           </div>
         </section>
 
