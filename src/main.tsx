@@ -5,9 +5,43 @@ import { createRoot } from 'react-dom/client'
 import { findPlugin, plugins, repositoryUrl, type Plugin } from './plugins'
 import './styles.css'
 
-function useSha256(source: string) {
+type SourceState = {
+  status: 'loading' | 'ready' | 'error'
+  source: string | null
+  lines: number | null
+}
+
+function usePluginSource(rawUrl: string): SourceState {
+  const [state, setState] = useState<SourceState>({ status: 'loading', source: null, lines: null })
+
+  useEffect(() => {
+    let cancelled = false
+    setState({ status: 'loading', source: null, lines: null })
+
+    fetch(rawUrl)
+      .then((response) => {
+        if (!response.ok) throw new Error(`http ${response.status}`)
+        return response.text()
+      })
+      .then((text) => {
+        if (cancelled) return
+        setState({ status: 'ready', source: text, lines: text.replace(/\n$/, '').split('\n').length })
+      })
+      .catch(() => {
+        if (cancelled) return
+        setState({ status: 'error', source: null, lines: null })
+      })
+
+    return () => { cancelled = true }
+  }, [rawUrl])
+
+  return state
+}
+
+function useSha256(source: string | null) {
   const [hash, setHash] = useState<string | null>(null)
   useEffect(() => {
+    if (source == null) { setHash(null); return }
     let cancelled = false
     crypto.subtle.digest('SHA-256', new TextEncoder().encode(source)).then((buffer) => {
       if (cancelled) return
@@ -16,6 +50,10 @@ function useSha256(source: string) {
     return () => { cancelled = true }
   }, [source])
   return hash
+}
+
+function lineCountLabel(lines: number | null) {
+  return lines == null ? '···' : `${lines}`
 }
 
 function CopyButton({ value, label }: { value: string; label: string }) {
@@ -105,6 +143,42 @@ function CodeBlock({ source, excerpt = false }: { source: string; excerpt?: bool
   )
 }
 
+const SKELETON_WIDTHS = [58, 82, 41, 74, 63, 88, 35, 69, 79, 46, 85, 52, 71, 38, 66, 81, 44, 76]
+
+function CodeSkeleton({ excerpt = false }: { excerpt?: boolean }) {
+  const rows = excerpt ? 18 : 26
+  return (
+    <div className={excerpt ? 'code-frame code-frame-excerpt' : 'code-frame'}>
+      <div className="code-skeleton" role="status" aria-label="loading plugin source">
+        {Array.from({ length: rows }, (_, index) => (
+          <span
+            className="skeleton-line"
+            key={index}
+            style={{ width: `${SKELETON_WIDTHS[index % SKELETON_WIDTHS.length]}%` }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function CodeError({ rawUrl, excerpt = false }: { rawUrl: string; excerpt?: boolean }) {
+  return (
+    <div className={excerpt ? 'code-frame code-frame-excerpt' : 'code-frame'}>
+      <div className="code-error" role="alert">
+        <p>could not reach github to load this file.</p>
+        <a href={rawUrl}>open the raw source <ArrowUpRight aria-hidden="true" /></a>
+      </div>
+    </div>
+  )
+}
+
+function SourcePanel({ state, rawUrl, excerpt = false }: { state: SourceState; rawUrl: string; excerpt?: boolean }) {
+  if (state.status === 'loading') return <CodeSkeleton excerpt={excerpt} />
+  if (state.status === 'error' || state.source == null) return <CodeError rawUrl={rawUrl} excerpt={excerpt} />
+  return <CodeBlock source={state.source} excerpt={excerpt} />
+}
+
 function PluginRow({ plugin }: { plugin: Plugin }) {
   return (
     <article className="plugin-row">
@@ -127,6 +201,7 @@ function PluginRow({ plugin }: { plugin: Plugin }) {
 function HomePage() {
   useEffect(() => { document.title = 'amp plugin catalog' }, [])
   const heroPlugin = findPlugin('compressr') ?? plugins[0]
+  const heroSource = usePluginSource(heroPlugin.rawUrl)
   return (
     <>
       <Header />
@@ -139,8 +214,11 @@ function HomePage() {
             <a className="primary-link" href="#plugins">browse plugins <ArrowRight aria-hidden="true" /></a>
           </div>
           <div className="hero-code" aria-label={`${heroPlugin.name} source excerpt`}>
-            <div className="code-title"><span>plugins/{heroPlugin.filename}</span><span>{heroPlugin.sourceLines} lines</span></div>
-            <CodeBlock source={heroPlugin.source} excerpt />
+            <div className="code-title">
+              <span>plugins/{heroPlugin.filename}</span>
+              <span>{lineCountLabel(heroSource.lines)} lines</span>
+            </div>
+            <SourcePanel state={heroSource} rawUrl={heroPlugin.rawUrl} excerpt />
           </div>
         </section>
 
@@ -185,7 +263,8 @@ function HomePage() {
 
 function DetailPage({ plugin }: { plugin: Plugin }) {
   useEffect(() => { document.title = `${plugin.name} | amp plugin catalog` }, [plugin.name])
-  const sha256 = useSha256(plugin.source)
+  const sourceState = usePluginSource(plugin.rawUrl)
+  const sha256 = useSha256(sourceState.source)
   const verifyCommand = `curl -fsSL ${plugin.rawUrl} | shasum -a 256`
   return (
     <>
@@ -201,10 +280,10 @@ function DetailPage({ plugin }: { plugin: Plugin }) {
                 <p className="detail-lede">{plugin.description}</p>
               </div>
               <dl className="metadata">
-                <div><dt>source</dt><dd>{plugin.sourceLines} lines</dd></div>
+                <div><dt>source</dt><dd>{lineCountLabel(sourceState.lines)} lines</dd></div>
                 <div><dt>language</dt><dd>typescript</dd></div>
                 <div><dt>distribution</dt><dd>raw source</dd></div>
-                <div><dt>sha-256</dt><dd>{sha256 ? `${sha256.slice(0, 16)}…` : '…'}</dd></div>
+                <div><dt>sha-256</dt><dd>{sha256 ? `${sha256.slice(0, 16)}…` : '···'}</dd></div>
                 <div><dt>repo</dt><dd><a href={plugin.githubUrl}>view on github</a></dd></div>
               </dl>
             </div>
@@ -231,7 +310,9 @@ function DetailPage({ plugin }: { plugin: Plugin }) {
               <code>{verifyCommand}</code>
               <CopyButton value={verifyCommand} label="verify command" />
             </div>
-            <p className="checksum-note">expected sha-256 · <b>{sha256 ?? 'computing…'}</b></p>
+            <p className="checksum-note">
+              expected sha-256 · <b>{sha256 ?? (sourceState.status === 'error' ? 'unavailable, source fetch failed' : 'computing…')}</b>
+            </p>
           </section>
 
           <section className="facts shell" aria-label="plugin details">
@@ -246,10 +327,13 @@ function DetailPage({ plugin }: { plugin: Plugin }) {
           <section className="source-section shell" aria-labelledby="source-title">
             <SectionLabel>source</SectionLabel>
             <div className="source-heading">
-              <div><h2 id="source-title">complete source</h2><p>{plugin.filename}, {plugin.sourceLines} lines. scroll horizontally for long lines.</p></div>
-              <CopyButton value={plugin.source} label="full source" />
+              <div>
+                <h2 id="source-title">complete source</h2>
+                <p>{plugin.filename}, {lineCountLabel(sourceState.lines)} lines. fetched live from the repo.</p>
+              </div>
+              {sourceState.source != null && <CopyButton value={sourceState.source} label="full source" />}
             </div>
-            <CodeBlock source={plugin.source} />
+            <SourcePanel state={sourceState} rawUrl={plugin.rawUrl} />
           </section>
         </article>
       </main>

@@ -1,11 +1,3 @@
-import compressrSource from '../plugins/compressr.ts?raw'
-import fableModeSource from '../plugins/fable-mode.ts?raw'
-import gpt56LunaModeSource from '../plugins/gpt-56-luna-mode.ts?raw'
-import gpt56SolModeSource from '../plugins/gpt-56-sol-mode.ts?raw'
-import gpt56TerraModeSource from '../plugins/gpt-56-terra-mode.ts?raw'
-import readXPostSource from '../plugins/read-x-post.ts?raw'
-import signalFilterSource from '../plugins/signal-filter.ts?raw'
-
 export type Plugin = {
   slug: string
   name: string
@@ -15,8 +7,6 @@ export type Plugin = {
   requirements: readonly string[]
   modes: readonly string[]
   features: readonly string[]
-  source: string
-  sourceLines: number
   rawUrl: string
   githubUrl: string
   installCommand: string
@@ -52,8 +42,6 @@ export const plugins = [
       'coding-focused instructions for small changes and end-to-end verification',
       'fallback support for amp’s former experimental agent api',
     ],
-    source: gpt56LunaModeSource,
-    sourceLines: 45,
   }),
   plugin({
     slug: 'gpt-56-terra-mode',
@@ -70,8 +58,6 @@ export const plugins = [
       'coding-focused instructions for small changes and end-to-end verification',
       'fallback support for amp’s former experimental agent api',
     ],
-    source: gpt56TerraModeSource,
-    sourceLines: 45,
   }),
   plugin({
     slug: 'gpt-56-sol-mode',
@@ -88,8 +74,6 @@ export const plugins = [
       'coding-focused instructions for small changes and end-to-end verification',
       'fallback support for amp’s former experimental agent api',
     ],
-    source: gpt56SolModeSource,
-    sourceLines: 45,
   }),
   plugin({
     slug: 'compressr',
@@ -110,8 +94,6 @@ export const plugins = [
       'leaves short results and failed tool calls unchanged',
       'falls back cleanly when the api key or compresr service is unavailable',
     ],
-    source: compressrSource,
-    sourceLines: 232,
   }),
   plugin({
     slug: 'read-x-post',
@@ -128,8 +110,6 @@ export const plugins = [
       'expands reply chains by default with an option to read one post only',
       'validates status urls before sending requests to x.pcstyle.dev',
     ],
-    source: readXPostSource,
-    sourceLines: 41,
   }),
   plugin({
     slug: 'signal-filter',
@@ -150,8 +130,6 @@ export const plugins = [
       'leaves short, oversized, mixed-media, failed, and insufficiently reduced results unchanged',
       'falls back to the original result when filtering fails or exceeds 30 seconds',
     ],
-    source: signalFilterSource,
-    sourceLines: 214,
   }),
   plugin({
     slug: 'fable-mode',
@@ -168,8 +146,6 @@ export const plugins = [
       'curated smart-tool access for each registered mode',
       'runtime-safe labels that stay within amp plugin limits',
     ],
-    source: fableModeSource,
-    sourceLines: 210,
   }),
 ] as const satisfies readonly Plugin[]
 

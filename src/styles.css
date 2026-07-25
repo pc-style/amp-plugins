@@ -70,6 +70,14 @@ a:focus-visible, button:focus-visible, pre:focus-visible { outline: 2px solid va
 .hero-code .code-frame { border: 0; border-radius: 0; background: transparent; }
 .code-frame pre { max-width: 100%; margin: 0; padding-block: 14px; overflow-x: auto; color: #c6c3be; font: 12px/1.7 var(--mono); tab-size: 2; }
 .code-frame-excerpt { max-height: 400px; overflow: hidden; }
+.code-skeleton { display: grid; gap: 11px; padding: 20px 18px; }
+.skeleton-line { height: 8px; border-radius: 2px; background: var(--surface-strong); animation: skeleton-pulse 1.8s ease-in-out infinite; }
+@keyframes skeleton-pulse { 0%, 100% { opacity: .4; } 50% { opacity: .85; } }
+.code-error { display: grid; gap: 10px; padding: 28px 20px; }
+.code-error p { margin: 0; color: var(--muted); font: 12px/1.6 var(--mono); }
+.code-error a { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font: 12px var(--mono); transition: color 160ms ease; }
+.code-error a:hover { color: var(--text); }
+@media (prefers-reduced-motion: reduce) { .skeleton-line { animation: none; opacity: .5; } }
 .code-line { display: grid; grid-template-columns: 52px max-content; min-width: 100%; padding-right: 24px; }
 .line-number { padding-right: 16px; color: var(--faint); text-align: right; user-select: none; }
 
