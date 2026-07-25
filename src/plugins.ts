@@ -97,13 +97,13 @@ export const plugins = [
     filename: 'compressr.ts',
     summary: 'keep long tool results useful without carrying their full context cost.',
     description:
-      'adds two low-reasoning agent modes that compress long, successful tool results through compresr before those results re-enter the model context.',
+      'adds three agent modes that compress long, successful tool results through compresr before those results re-enter the model context.',
     requirements: [
       'amp with agent mode plugin apis available',
       'COMPRESR_API_KEY for tool-result compression',
       'network access to api.compresr.ai',
     ],
-    modes: ['Fable Cmp low', 'GPT5.6 Sol Cmp low'],
+    modes: ['Fable Cmp low', 'GPT5.6 Sol Cmp low', 'Opus5 Cmp med'],
     features: [
       'keeps the task-relevant parts of long tool results while dropping context the agent does not need',
       'builds compression queries from tool input and recent user messages',
@@ -111,7 +111,7 @@ export const plugins = [
       'falls back cleanly when the api key or compresr service is unavailable',
     ],
     source: compressrSource,
-    sourceLines: 214,
+    sourceLines: 232,
   }),
   plugin({
     slug: 'read-x-post',
@@ -137,13 +137,13 @@ export const plugins = [
     filename: 'signal-filter.ts',
     summary: 'filter long tool results through amp inference before they consume the agent’s context.',
     description:
-      'adds two experimental low-reasoning modes that use amp/glm-5.2 to retain task-relevant excerpts from long text tool results.',
+      'adds three experimental modes that use amp/glm-5.2 to retain task-relevant excerpts from long text tool results.',
     requirements: [
       'amp with agent mode and plugin ai apis available',
       'access to amp/glm-5.2 for tool-result filtering',
       'access to the model used by the selected agent mode',
     ],
-    modes: ['Fable Signal exp', 'Sol Signal exp'],
+    modes: ['Fable Signal exp', 'Sol Signal exp', 'Opus5 Signal exp'],
     features: [
       'uses amp/glm-5.2 at no reasoning instead of a separate third-party api key',
       'filters long text results using tool input and recent user messages as relevance signals',
@@ -151,7 +151,7 @@ export const plugins = [
       'falls back to the original result when filtering fails or exceeds 30 seconds',
     ],
     source: signalFilterSource,
-    sourceLines: 195,
+    sourceLines: 214,
   }),
   plugin({
     slug: 'fable-mode',

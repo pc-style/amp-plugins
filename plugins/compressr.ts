@@ -1,5 +1,6 @@
 // @amp-agent-mode {"key":"cmp-fable-low","label":"Fable Cmp low"}
 // @amp-agent-mode {"key":"cmp-gpt56-sol-low","label":"GPT5.6 Sol Cmp low"}
+// @amp-agent-mode {"key":"cmp-opus5-med","label":"Opus5 Cmp med"}
 
 import type { PluginAPI } from '@ampcode/plugin'
 
@@ -90,6 +91,23 @@ export default function (amp: PluginAPI) {
 		description: 'GPT-5.6 Sol low with Compresr-compressed tool results',
 		color: '#60a5fa',
 		agent: gptAgent.definition,
+	})
+
+	const opusAgent = createAgent({
+		name: 'compressr-opus-5-medium',
+		model: 'anthropic/claude-opus-5',
+		instructions: AGENT_PROMPT,
+		tools: TOOL_NAMES,
+		reasoningEffort: 'medium',
+		display: { label: 'Opus5 Cmp med', color: '#f472b6' },
+	})
+
+	registerAgentMode({
+		key: 'cmp-opus5-med',
+		label: 'Opus5 Cmp med',
+		description: 'Claude Opus 5 medium with Compresr-compressed tool results',
+		color: '#f472b6',
+		agent: opusAgent.definition,
 	})
 
 	amp.on('tool.result', async (event, ctx) => {

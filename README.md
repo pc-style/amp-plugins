@@ -28,7 +28,7 @@ mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/p
 
 ## Compressr
 
-`compressr.ts` adds Fable Cmp low and GPT5.6 Sol Cmp low modes. Successful long tool results are compressed through Compresr before they re-enter model context. Set `COMPRESR_API_KEY` to enable compression.
+`compressr.ts` adds Fable Cmp low, GPT5.6 Sol Cmp low, and Opus5 Cmp med modes. Successful long tool results are compressed through Compresr before they re-enter model context. Set `COMPRESR_API_KEY` to enable compression.
 
 ```bash
 mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/compressr.ts -o ~/.config/amp/plugins/compressr.ts
@@ -44,7 +44,7 @@ mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/p
 
 ## Signal Filter Experimental
 
-`signal-filter.ts` adds Fable Signal exp and Sol Signal exp modes. It uses Amp-routed `amp/glm-5.2` inference at no reasoning to retain task-relevant excerpts from long text tool results, with no separate API key. Filtering is lossy and experimental; unsupported, insufficiently reduced, timed-out, and failed results remain unchanged.
+`signal-filter.ts` adds Fable Signal exp, Sol Signal exp, and Opus5 Signal exp modes. It uses Amp-routed `amp/glm-5.2` inference at no reasoning to retain task-relevant excerpts from long text tool results, with no separate API key. Filtering is lossy and experimental; unsupported, insufficiently reduced, timed-out, and failed results remain unchanged.
 
 ```bash
 mkdir -p ~/.config/amp/plugins && curl -fsSL https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins/signal-filter.ts -o ~/.config/amp/plugins/signal-filter.ts

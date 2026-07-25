@@ -1,5 +1,6 @@
 // @amp-agent-mode {"key":"signal-fable-low","label":"Fable Signal exp"}
 // @amp-agent-mode {"key":"signal-sol-low","label":"Sol Signal exp"}
+// @amp-agent-mode {"key":"signal-opus5-med","label":"Opus5 Signal exp"}
 
 import type { PluginAPI } from '@ampcode/plugin'
 
@@ -11,6 +12,7 @@ const FILTER_TIMEOUT_MS = 30_000
 const SIGNAL_AGENT_NAMES = new Set([
 	'signal-filter-fable-low',
 	'signal-filter-gpt-5-6-sol-low',
+	'signal-filter-opus-5-medium',
 ])
 
 const AGENT_PROMPT = `
@@ -70,6 +72,23 @@ export default function (amp: PluginAPI) {
 		description: 'Experimental GPT-5.6 Sol low mode with Amp AI-filtered tool results',
 		color: '#60a5fa',
 		agent: solAgent.definition,
+	})
+
+	const opusAgent = createAgent({
+		name: 'signal-filter-opus-5-medium',
+		model: 'anthropic/claude-opus-5',
+		instructions: AGENT_PROMPT,
+		tools: 'all',
+		reasoningEffort: 'medium',
+		display: { label: 'Opus5 Signal exp', color: '#f472b6' },
+	})
+
+	registerAgentMode({
+		key: 'signal-opus5-med',
+		label: 'Opus5 Signal exp',
+		description: 'Experimental Claude Opus 5 medium mode with Amp AI-filtered tool results',
+		color: '#f472b6',
+		agent: opusAgent.definition,
 	})
 
 	amp.on('tool.result', async (event, ctx) => {
