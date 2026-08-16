@@ -246,7 +246,7 @@ function HomePage() {
             <div>
               <em>02</em>
               <h3>verify the checksum</h3>
-              <p>each plugin publishes its sha-256 digest. pipe the raw url through shasum and compare before running anything.</p>
+              <p>each page computes the pinned source's sha-256 digest. compare it with your download before installing.</p>
             </div>
             <div>
               <em>03</em>
@@ -304,7 +304,7 @@ function DetailPage({ plugin }: { plugin: Plugin }) {
             <div className="section-heading compact"><h2 id="audit-title">audit before you install</h2></div>
             <p>
               the install command fetches <a href={plugin.rawUrl}>{plugin.rawUrl}</a> — the same file published at{' '}
-              <a href={plugin.githubUrl}>github.com/pc-style/amp-plugins</a> and rendered in full below. to verify the download matches, hash the raw file and compare against the digest of the published source:
+              <a href={plugin.githubUrl}>github.com/pc-style/amp-plugins</a> and rendered in full below. to verify the downloaded bytes match that pinned source, compare its hash with the browser-computed digest:
             </p>
             <div className="command-bar">
               <code>{verifyCommand}</code>

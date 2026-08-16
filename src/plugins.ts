@@ -14,14 +14,15 @@ export type Plugin = {
 
 export const repositoryUrl = 'https://github.com/pc-style/amp-plugins'
 
-const rawBase = 'https://raw.githubusercontent.com/pc-style/amp-plugins/main/plugins'
+const sourceRevision = 'cda601dfab62e7306b80a62f1cff7922d2695256'
+const rawBase = `https://raw.githubusercontent.com/pc-style/amp-plugins/${sourceRevision}/plugins`
 
 function plugin(definition: Omit<Plugin, 'rawUrl' | 'githubUrl' | 'installCommand'>): Plugin {
   const rawUrl = `${rawBase}/${definition.filename}`
   return {
     ...definition,
     rawUrl,
-    githubUrl: `${repositoryUrl}/blob/main/plugins/${definition.filename}`,
+    githubUrl: `${repositoryUrl}/blob/${sourceRevision}/plugins/${definition.filename}`,
     installCommand: `mkdir -p ~/.config/amp/plugins && curl -fsSL ${rawUrl} -o ~/.config/amp/plugins/${definition.filename}`,
   }
 }
@@ -90,7 +91,7 @@ export const plugins = [
     modes: ['Fable Cmp low', 'GPT5.6 Sol Cmp low', 'Opus5 Cmp med'],
     features: [
       'keeps the task-relevant parts of long tool results while dropping context the agent does not need',
-      'builds compression queries from tool input and recent user messages',
+      'sends bounded tool output, serialized tool input, and recent user messages directly to api.compresr.ai',
       'leaves short results and failed tool calls unchanged',
       'falls back cleanly when the api key or compresr service is unavailable',
     ],

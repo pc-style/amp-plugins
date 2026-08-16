@@ -1,11 +1,12 @@
 {
   "name": "amp-plugins",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "check": "bun --check plugins/*.ts && tsc --noEmit",
+    "dev": "bun --bun vite",
+    "build": "bun --bun vite build",
+    "check": "bun --check plugins/*.ts && bun --bun tsc --noEmit",
     "tb__tsc-lint-build": "bun run check && bun run build"
   },
   "dependencies": {
